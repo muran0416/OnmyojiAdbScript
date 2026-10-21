@@ -1,0 +1,20 @@
+{
+  "config_name": "御魂",
+  "ADB": "adb",
+  "running_task": "",
+  "serial": "127.0.0.1:16416",
+  "templates": [
+    {
+      "name": "matching",
+      "file": "templates/Leadership.png",
+      "threshold": 0.58,
+      "cooldown": 2.0
+    },
+    {
+      "name": "check",
+      "file": "templates/jx.png",
+      "threshold": 0.6,
+      "cooldown": 1.5
+    }
+  ]
+}

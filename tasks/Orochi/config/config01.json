@@ -1,0 +1,20 @@
+{
+  "config_name": "爬塔",
+  "ADB": "adb",
+  "running_task": "",
+  "serial": "127.0.0.1:16416",
+  "templates": [
+    {
+      "name": "matching",
+      "file": "templates/tz.png",
+      "threshold": 0.95,
+      "cooldown": 2.0
+    },
+    {
+      "name": "check",
+      "file": "templates/jx.png",
+      "threshold": 0.95,
+      "cooldown": 1.5
+    }
+  ]
+}
