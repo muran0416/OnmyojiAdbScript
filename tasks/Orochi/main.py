@@ -12,7 +12,7 @@ from core.index import tool
 from core.index import adb_tap
 
 def mian():
-    cunten = {'name':None,'frequency':0}
+    cunten = {'name':None,'frequency':0,'counter':0}
     while 1:
         for template in config['templates']:
 
@@ -35,6 +35,7 @@ def mian():
                 else:
                     # 和上次匹配不同
                     cunten["name"] = current_name
+                    cunten["counter"] += 1
                     cunten["frequency"] = 1
                 cx, cy = adb_tap(cx, cy, 3)
                 log_info(
@@ -43,11 +44,14 @@ def mian():
                     f'score={max_val:.4f}, '
                     f'center=({cx},{cy})'
                 )
-        if cunten["frequency"] >= 3:
+        if cunten["frequency"] >= 3 :
             log_info(
                 f'连续点击 {cunten["name"]} '
                 f'{cunten["frequency"]} 次, 自动结束!'
             )
+            break
+        if cunten["counter"]/len(config["templates"]) >= 50:
+            log_info(f'已运行{cunten["counter"]/len(config["templates"])}次,任务结束~ ')
             break
 
         time.sleep(2)
