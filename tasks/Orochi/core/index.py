@@ -18,9 +18,9 @@ def now_timestamp():
 def log_info(self) -> bool:
     print(f'{now_timestamp()}{self}')
 
-def config():
+def config(File="../config/config.json"):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(BASE_DIR, "../config/config.json")
+    config_path = os.path.join(BASE_DIR, File)
 
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
@@ -46,7 +46,33 @@ def adb_tap(x, y, z):
     subprocess.run(f"{config()['ADB']} -s {config()['serial']} shell input tap {x} {y}", shell=True)
     return x,y
 
+
+def is_button_enabled(screen, x, y, w, h):
+    """判断按钮是否有足够的彩色像素。"""
+    button = screen[y:y + h, x:x + w]
+    if button.size == 0:
+        return False
+
+    # 去掉外侧一圈，减少周围背景的干扰
+    margin_x = int(w * 0.15)
+    margin_y = int(h * 0.15)
+    button = button[
+        margin_y:h - margin_y,
+        margin_x:w - margin_x
+    ]
+    if button.size == 0:
+        return False
+
+    hsv = cv2.cvtColor(button, cv2.COLOR_BGR2HSV)
+    saturation = hsv[:, :, 1]
+    brightness = hsv[:, :, 2]
+
+    # 饱和度较高，且不是过暗的像素，视为彩色像素
+    colored = (saturation >= 60) & (brightness >= 60)
+    colored_ratio = np.mean(colored)
+
+    return colored_ratio >= 0.20
+
 # if __name__ == "__main__":
-#
 #     screen = tool()
 #     print(screen.shape)
