@@ -15,7 +15,8 @@
       "name": "check",
       "file": "templates/jx.png",
       "threshold": 0.6,
-      "cooldown": 1.5
+      "cooldown": 1.5,
+      "count_completion": true
     }
   ]
 }

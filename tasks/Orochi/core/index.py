@@ -26,9 +26,9 @@ def config(File="../config/config.json"):
         config = json.load(f)
     return config
 
-def tool():
+def tool(settings):
     result = subprocess.run(
-        [config()['ADB'], "-s", config()['serial'], "exec-out", "screencap", "-p"],
+        [settings['ADB'], "-s", settings['serial'], "exec-out", "screencap", "-p"],
         capture_output=True
     )
     img_bytes = result.stdout  # 这是 bytes（二进制）
@@ -38,12 +38,12 @@ def tool():
     screen = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
     return screen
 
-def adb_tap(x, y, z):
+def adb_tap(settings,x, y, z):
     RAND_OFFSET = z
     if RAND_OFFSET > 0:
         x += random.randint(-RAND_OFFSET, RAND_OFFSET)
         y += random.randint(-RAND_OFFSET, RAND_OFFSET)
-    subprocess.run(f"{config()['ADB']} -s {config()['serial']} shell input tap {x} {y}", shell=True)
+    subprocess.run(f"{settings['ADB']} -s {settings['serial']} shell input tap {x} {y}", shell=True)
     return x,y
 
 
